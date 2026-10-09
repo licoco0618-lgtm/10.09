@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>會計學段考精準訓練館 | 11511 真題 • 借貸法則 • 複式簿記</title>
+  <meta name="description" content="專為會計學設計的段考刷題與觀念特訓網站，收錄11511會計段考是非與選擇題、借貸法則快問快答、複式簿記「有借必有貸，有貸必有借，借貸金額必相等」實戰分錄工作台。">
+
+  <!-- Google Web Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Noto+Sans+TC:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 頂部導航與功能列 -->
+  <header class="header-wrapper">
+    <div class="container">
+      <div class="site-header">
+        <div class="logo-area">
+          <div class="logo-icon">📊</div>
+          <div class="logo-text">
+            <h1>會計學段考訓練館</h1>
+            <p>11511 段考真題 • 借貸法則 • 複式簿記</p>
+          </div>
+        </div>
+
+        <div class="header-controls">
+          <button class="btn-icon" id="btn-sound-toggle" title="開關音效" aria-label="開關音效">🔔</button>
+          <button class="btn-icon" id="btn-theme-toggle" title="切換深淺模式" aria-label="切換深淺模式">☀️</button>
+        </div>
+      </div>
+
+      <!-- 導航標籤組 (手機橫向平滑滑動) -->
+      <nav class="nav-tabs" aria-label="學習專區導航">
+        <button class="tab-btn active" data-tab="exam">
+          <span class="tab-emoji">📝</span>
+          <span>11511 段考真題</span>
+          <span class="tab-badge">25 題</span>
+        </button>
+        <button class="tab-btn" data-tab="rules">
+          <span class="tab-emoji">⚖️</span>
+          <span>借貸法則特訓</span>
+          <span class="tab-badge">五大要素</span>
+        </button>
+        <button class="tab-btn" data-tab="journal">
+          <span class="tab-emoji">📖</span>
+          <span>複式簿記實戰</span>
+          <span class="tab-badge">分錄練習</span>
+        </button>
+        <button class="tab-btn" data-tab="cheatsheet">
+          <span class="tab-emoji">💡</span>
+          <span>必考重點速查</span>
+          <span class="tab-badge">精華手冊</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- ====================================================================
+         TAB 1: 段考真題練習
+         ==================================================================== -->
+    <section class="tab-content active" id="tab-exam">
+      <!-- 統計介紹橫幅 -->
+      <div class="hero-banner">
+        <div class="hero-info">
+          <h2>
+            <span>11511 會計學 Quiz 真題</span>
+            <span class="pill-tag">資處科一年級</span>
+          </h2>
+          <p>
+            完整收錄是非題 5 題與選擇題 20 題。提供即時解析刷題與 40 分鐘全真模擬考模式，點擊選項立即作答！
+          </p>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-box">
+            <div class="stat-value">25</div>
+            <div class="stat-label">總題數</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value" id="mistake-count-badge">0</div>
+            <div class="stat-label">錯題待複習</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value highlight-score">100</div>
+            <div class="stat-label">段考滿分</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 控制工具列 -->
+      <div class="toolbar-card">
+        <div class="mode-selectors">
+          <button class="mode-btn active" data-exam-mode="practice">
+            ⚡ 逐題刷題模式
+          </button>
+          <button class="mode-btn" data-exam-mode="test">
+            ⏱️ 40分模擬考
+          </button>
+        </div>
+
+        <div class="toolbar-actions">
+          <button class="btn-primary" id="btn-submit-exam" style="display: none;">
+            📤 交卷計分
+          </button>
+          <button class="btn-secondary" id="btn-reset-exam">
+            🔄 重置作答
+          </button>
+        </div>
+      </div>
+
+      <!-- 題型篩選標籤 (手機橫向滑動) -->
+      <div class="filter-pills-wrap">
+        <div class="filter-pills">
+          <button class="filter-pill active" data-filter="all">全部題目 (25)</button>
+          <button class="filter-pill" data-filter="tf">是非題 (1~5)</button>
+          <button class="filter-pill" data-filter="choice">選擇題 (6~25)</button>
+          <button class="filter-pill" data-filter="mistakes">⚠️ 錯題專區</button>
+        </div>
+      </div>
+
+      <!-- 兩欄版面配置 (手機上側邊欄自動浮在上方提供速查與進度) -->
+      <div class="exam-layout">
+        <!-- 題目列表 -->
+        <div id="exam-questions-list">
+          <!-- 由 JS 動態生成題目 -->
+        </div>
+
+        <!-- 側邊欄 (手機版自適應頂部導航) -->
+        <aside class="exam-sidebar">
+          <div class="sidebar-card" id="sidebar-timer-block" style="display: none;">
+            <div class="timer-box">
+              <span class="timer-label">剩餘時間</span>
+              <span class="timer-digits" id="exam-timer-digits">40:00</span>
+            </div>
+            <button class="btn-primary btn-block" onclick="submitExam()">
+              即刻交卷計分
+            </button>
+          </div>
+
+          <div class="sidebar-card">
+            <div class="progress-info">
+              <div class="progress-text">
+                <span>作答進度</span>
+                <span id="answered-count-text">0 / 25 題 (0%)</span>
+              </div>
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="exam-progress-fill"></div>
+              </div>
+            </div>
+
+            <!-- 手機版題號速查切換按鈕 -->
+            <div class="q-grid-header">
+              <span class="q-grid-title">題號快速跳轉</span>
+              <button class="btn-text-toggle" id="btn-toggle-grid">收合 ▴</button>
+            </div>
+
+            <div class="q-grid" id="exam-quick-grid">
+              <!-- 由 JS 動態生成 25 題按鈕 -->
+            </div>
+
+            <div class="sidebar-hint">
+              點擊號碼可平滑跳至該題。綠色正確、紅色答錯、藍色已填。
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TAB 2: 借貸法則特訓專區
+         ==================================================================== -->
+    <section class="tab-content" id="tab-rules">
+      <div class="rules-hero">
+        <h2 class="section-title">
+          ⚖️ 借貸法則 (Debit & Credit Rules) 特訓
+        </h2>
+        <p class="section-desc">
+          五大要素借貸口訣：<strong>「資產與費損借增貸減，負債、權益與收益借減貸增」</strong>。
+        </p>
+
+        <!-- 會計方程式展示 (手機自適應排版) -->
+        <div class="equation-banner">
+          <div class="eq-item eq-asset">
+            <div>資產</div>
+            <span>借(+) 貸(-)</span>
+          </div>
+          <div class="eq-operator">=</div>
+          <div class="eq-item eq-liability">
+            <div>負債</div>
+            <span>借(-) 貸(+)</span>
+          </div>
+          <div class="eq-operator">+</div>
+          <div class="eq-item eq-equity">
+            <div>權益</div>
+            <span>借(-) 貸(+)</span>
+          </div>
+        </div>
+
+        <div class="eq-subtext">
+          動態擴充式：<strong>資產 + 費損 ＝ 負債 + 權益 + 收益</strong>（左借增貸減，右貸增借減）
+        </div>
+      </div>
+
+      <!-- 五大要素卡片列表 -->
+      <h3 class="sub-title">📚 五大要素借貸增減對照卡</h3>
+      <div class="elements-grid" id="elements-cards-grid">
+        <!-- 由 JS 動態生成 -->
+      </div>
+
+      <!-- 快問快答極速特訓擂台 (手機友善大按鈕) -->
+      <div class="drill-section">
+        <div class="drill-header-stats">
+          <span id="drill-current-num">1 / 15</span>
+          <span class="combo-text" id="drill-combo-val">0 連擊 🔥</span>
+          <span class="score-text" id="drill-score-val">0 分</span>
+        </div>
+
+        <div class="drill-question-box">
+          <div class="drill-element-hint" id="drill-element-type">要素歸屬：資產</div>
+          <div class="drill-item-name" id="drill-item-title">庫存現金 (Cash)</div>
+          <div>
+            <span class="drill-action-tag tag-increase" id="drill-action-badge">【增加】</span>
+          </div>
+          <p class="drill-instruction">
+            此項變動應記錄在帳戶的借方還是貸方？
+          </p>
+
+          <div class="drill-buttons" id="drill-buttons-group">
+            <button class="btn-debit" id="btn-drill-debit">
+              👈 借方 (Dr.)
+            </button>
+            <button class="btn-credit" id="btn-drill-credit">
+              👉 貸方 (Cr.)
+            </button>
+          </div>
+
+          <div id="drill-feedback-box" style="display: none;" class="feedback-panel"></div>
+
+          <button class="btn-primary btn-block-sm" id="btn-drill-next" style="display: none; margin: 0 auto;">
+            下一題 ➔
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TAB 3: 複式簿記實戰分錄專區
+         ==================================================================== -->
+    <section class="tab-content" id="tab-journal">
+      <div class="hero-banner" style="margin-top: 0;">
+        <div class="hero-info">
+          <h2>
+            <span>複式簿記實戰工作台</span>
+          </h2>
+          <!-- 突出顯示使用者要求的核心鐵律 -->
+          <div class="golden-rule-pill">
+            🌟 核心鐵律：有借必有貸，有貸必有借，借貸金額必相等
+          </div>
+          <p>
+            複式簿記（Double-Entry Bookkeeping）要求每筆經濟交易至少影響兩個帳戶，且<strong>有借必有貸，有貸必有借，借貸金額必相等</strong>。在下方填選分錄並即時檢驗 T 字帳！
+          </p>
+        </div>
+      </div>
+
+      <!-- 互動分錄工作台 -->
+      <div class="journal-workbench">
+        <!-- 黃金口訣橫幅 -->
+        <div class="golden-banner-card">
+          <div class="gb-title">⚖️ 複式簿記四大法則</div>
+          <div class="gb-quote">「有借必有貸，有貸必有借，借貸金額必相等」</div>
+          <div class="gb-desc">借方總額永遠等於貸方總額 • 保持會計方程式恆等平衡</div>
+        </div>
+
+        <div class="workbench-meta">
+          <span class="wb-index" id="journal-index-text">
+            第 1 題 / 共 15 題
+          </span>
+          <span class="wb-tip">
+            ⚖️ 借貸金額必須相等
+          </span>
+        </div>
+
+        <div class="scenario-card">
+          <h3 id="journal-scenario-text">
+            【創業投資】業主王先生出資現金 $300,000 開設成功商店。
+          </h3>
+        </div>
+
+        <!-- 借貸填答表單 (手機排版優化) -->
+        <div class="journal-form">
+          <!-- 借方區域 -->
+          <div class="journal-side-box debit-box">
+            <div class="side-header side-debit">
+              <span>🔵 借方 (Debit / Dr.)</span>
+              <span class="side-sub-desc">資產/費損增加 或 負債/權益減少</span>
+            </div>
+            <div class="form-group">
+              <label for="journal-debit-account">借方會計項目</label>
+              <select class="form-select" id="journal-debit-account">
+                <!-- 由 JS 填充 -->
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="journal-debit-amount">借方金額 ($)</label>
+              <input type="number" class="form-input" id="journal-debit-amount" placeholder="例如：300000" inputmode="numeric">
+            </div>
+          </div>
+
+          <!-- 貸方區域 -->
+          <div class="journal-side-box credit-box">
+            <div class="side-header side-credit">
+              <span>🟣 貸方 (Credit / Cr.)</span>
+              <span class="side-sub-desc">負債/權益/收益增加 或 資產減少</span>
+            </div>
+            <div class="form-group">
+              <label for="journal-credit-account">貸方會計項目</label>
+              <select class="form-select" id="journal-credit-account">
+                <!-- 由 JS 填充 -->
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="journal-credit-amount">貸方金額 ($)</label>
+              <input type="number" class="form-input" id="journal-credit-amount" placeholder="例如：300000" inputmode="numeric">
+            </div>
+          </div>
+        </div>
+
+        <!-- 動態 T 字帳即時可視化 (手機版兩欄自適應) -->
+        <div class="t-account-title-wrap">
+          <span class="t-section-label">即時 T 字帳 (T-Accounts) 預覽</span>
+        </div>
+        <div class="t-account-container">
+          <div class="t-account">
+            <div class="t-title" id="t-account-debit-name">借方項目</div>
+            <div class="t-body">
+              <div class="t-side left" id="t-deb-val">$0</div>
+              <div class="t-side right">-</div>
+            </div>
+          </div>
+          <div class="t-account">
+            <div class="t-title" id="t-account-credit-name">貸方項目</div>
+            <div class="t-body">
+              <div class="t-side left">-</div>
+              <div class="t-side right" id="t-cre-val">$0</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 驗證回饋區 -->
+        <div id="journal-feedback-box" style="display: none;" class="feedback-panel"></div>
+
+        <div class="action-center">
+          <button class="btn-primary btn-block-sm" id="btn-check-journal">
+            🔍 檢查分錄平衡與正確性
+          </button>
+          <button class="btn-primary btn-block-sm" id="btn-next-journal" style="display: none;">
+            下一筆交易 ➔
+          </button>
+        </div>
+      </div>
+
+      <!-- 九大交易型態矩陣 -->
+      <h3 class="sub-title" style="margin-top: 32px;">
+        📐 複式簿記「九大交易變動型態」全覽
+      </h3>
+      <div class="types-matrix" id="nine-types-grid">
+        <!-- 由 JS 動態生成 -->
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TAB 4: 考前重點速查手冊
+         ==================================================================== -->
+    <section class="tab-content" id="tab-cheatsheet">
+      <div class="hero-banner" style="margin-top: 0;">
+        <div class="hero-info">
+          <h2>
+            <span>會計學段考高頻必考手冊</span>
+            <span class="pill-tag">考前衝刺必背</span>
+          </h2>
+          <p>
+            彙整試卷核心常考法規、循環順序、保存年限與觀念對照，手機隨身複習！
+          </p>
+        </div>
+      </div>
+
+      <div class="cheatsheet-grid">
+        <!-- 卡片 1: 會計循環 vs 營業循環 -->
+        <div class="cheat-card">
+          <h3><span>🔄</span> 會計循環 vs 營業循環</h3>
+          <div class="table-responsive">
+            <table class="cheat-table">
+              <thead>
+                <tr><th>名詞</th><th>定義與流程</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>會計循環</strong><br><small>Accounting Cycle</small></td>
+                  <td>分錄 ➔ 過帳 ➔ 試算 ➔ 調整 ➔ 結帳 ➔ 編表，每期週而復始。</td>
+                </tr>
+                <tr>
+                  <td><strong>營業循環</strong><br><small>Operating Cycle</small></td>
+                  <td>投入現金 ➔ 進貨 ➔ 銷貨 ➔ 回復為現金之營運流程。</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 卡片 2: 商業會計法保存年限 -->
+        <div class="cheat-card">
+          <h3><span>📁</span> 會計資料保存年限</h3>
+          <div class="table-responsive">
+            <table class="cheat-table">
+              <thead>
+                <tr><th>會計文件類別</th><th>法定保存年限 (商會法§38)</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>各項會計憑證</strong></td>
+                  <td><strong style="color:var(--color-warning);">至少保存 5 年</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>帳簿與財務報表</strong></td>
+                  <td><strong style="color:var(--color-warning);">至少保存 10 年</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 卡片 3: 會計法規與準則適用位階 -->
+        <div class="cheat-card">
+          <h3><span>⚖️</span> 會計法規位階與準則</h3>
+          <div class="table-responsive">
+            <table class="cheat-table">
+              <thead>
+                <tr><th>位階 / 對象</th><th>適用規範</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>法律層級 (最高)</strong></td>
+                  <td>《商業會計法》</td>
+                </tr>
+                <tr>
+                  <td><strong>法規命令</strong></td>
+                  <td>《商業會計處理準則》</td>
+                </tr>
+                <tr>
+                  <td><strong>公開發行公司 (2013起)</strong></td>
+                  <td>國際財務報導準則 (IFRSs)</td>
+                </tr>
+                <tr>
+                  <td><strong>非公發中小企業</strong></td>
+                  <td>企業會計準則公報 (EAS)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 卡片 4: 實帳戶 vs 虛帳戶 -->
+        <div class="cheat-card">
+          <h3><span>📊</span> 實帳戶與虛帳戶分類</h3>
+          <div class="table-responsive">
+            <table class="cheat-table">
+              <thead>
+                <tr><th>帳戶類別</th><th>涵蓋要素與特性</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>實帳戶 (永久帳戶)</strong></td>
+                  <td><strong>資產、負債、權益</strong>。餘額結轉次期，編入「資產負債表」。</td>
+                </tr>
+                <tr>
+                  <td><strong>虛帳戶 (暫時帳戶)</strong></td>
+                  <td><strong>收益、費損</strong>。期末轉入「本期損益」歸零，編入「綜合損益表」。</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ====================================================================
+       成績單彈窗 (Score Modal)
+       ==================================================================== -->
+  <div class="modal-overlay" id="score-modal">
+    <div class="modal-box">
+      <button class="modal-close" id="btn-close-score" aria-label="關閉彈窗">&times;</button>
+      <div style="text-align: center;">
+        <div style="font-size: 2.2rem;">🎖️</div>
+        <h2 style="font-size: 1.35rem; font-weight: 700; margin-top: 6px;">段考模擬測驗成績單</h2>
+        <div class="score-badge-huge" id="modal-score-value">80 分</div>
+        <p style="font-size: 1rem; font-weight: 600; color: var(--text-main);" id="modal-correct-detail">
+          答對 20 題 / 共 25 題 (80%)
+        </p>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 14px 0;" id="modal-evaluation-text">
+          表現優異！觀念相當紮實！
+        </p>
+        <div class="modal-actions">
+          <button class="btn-primary" onclick="document.getElementById('score-modal').classList.remove('active');">
+            查看檢討
+          </button>
+          <button class="btn-secondary" onclick="resetExam(); document.getElementById('score-modal').classList.remove('active');">
+            重新測驗
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>會計科段考練習館 • 11511 真題複習 • 借貸法則 • 複式簿記</p>
+      <p class="footer-rule">「有借必有貸，有貸必有借，借貸金額必相等」</p>
+    </div>
+  </footer>
+
+  <!-- 題庫與核心邏輯腳本 -->
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
